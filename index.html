@@ -55,6 +55,11 @@
                 <button type="button" class="nav-link" data-nav="contact">Contact Us</button>
                 <!-- Unlocked as the final tab after Login or Sign Up -->
                 <button type="button" class="nav-link hidden" data-nav="dashboard" id="navDashboardTab">Dashboard</button>
+
+                <div class="mobile-nav-actions">
+                    <button type="button" class="btn-outline-sm full-width-btn" data-nav="login" id="navLoginBtnMobile">Login</button>
+                    <button type="button" class="btn-gold-sm full-width-btn" data-nav="signup" id="navSignupBtnMobile">Sign Up</button>
+                </div>
             </nav>
 
             <div class="nav-actions">
@@ -69,7 +74,13 @@
                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
                 </button>
+                <button type="button" class="hamburger-btn" id="btnHamburgerMenu" aria-label="Open Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+
         </div>
     </header>
 
@@ -1096,6 +1107,7 @@
                         <input type="password" id="loginPass" class="text-input" value="warisha123" required />
                     </div>
                     <button type="submit" class="btn-gold-lg full-width-btn">Login &amp; Unlock Dashboard Tab</button>
+                    <div id="loginErrorBanner" class="status-banner status-banner-error hidden"></div>
                 </form>
                 <div class="auth-switch-bar">
                     <span>Don't have an account yet?</span>
@@ -1169,6 +1181,7 @@
                         <input type="password" id="regPass" class="text-input" placeholder="Minimum 6 characters" required />
                     </div>
                     <button type="submit" class="btn-gold-lg full-width-btn">Create Account &amp; Unlock Dashboard Tab</button>
+                    <div id="signupErrorBanner" class="status-banner status-banner-error hidden"></div>
                 </form>
                 <div class="auth-switch-bar">
                     <span>Already registered?</span>

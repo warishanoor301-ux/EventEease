@@ -1239,7 +1239,23 @@ function renderSpecialEventsArchive() {
     `).join("");
 }
 
-function renderDashboard() {
+async function renderDashboard() {
+    try {
+        const res = await fetch(`${getApiBaseUrl()}/api/dashboard`);
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data.saved_plans) && data.saved_plans.length > 0) {
+                stateSavedPlans = data.saved_plans;
+            }
+            if (Array.isArray(data.vendors) && data.vendors.length > 0) {
+                stateVendors = data.vendors.length >= stateVendors.length ? data.vendors : stateVendors;
+            }
+            saveLocalState();
+        }
+    } catch (err) {
+        console.warn("[EventEase] Backend unreachable, showing locally cached Dashboard data.", err);
+    }
+
     document.getElementById("dashUserName").textContent = currentUser.full_name;
     document.getElementById("dashUserEmail").textContent = currentUser.email;
     document.getElementById("dashUserPhone").textContent = currentUser.phone;
@@ -1287,8 +1303,39 @@ function renderDashboard() {
 // ============================================================================
 // 10. INITIALIZATION & EVENT LISTENERS
 // ============================================================================
-document.addEventListener("DOMContentLoaded", () => {
+async function loadVendorsFromBackend() {
+    try {
+        const res = await fetch(`${getApiBaseUrl()}/api/vendors`);
+        if (!res.ok) throw new Error("Backend vendors request failed");
+        const data = await res.json();
+        if (Array.isArray(data.vendors) && data.vendors.length > 0) {
+            stateVendors = data.vendors;
+            saveLocalState();
+            console.log(`[EventEase] Loaded ${data.vendors.length} vendors from: ${data.source}`);
+        }
+    } catch (err) {
+        console.warn("[EventEase] Backend unreachable, using local/offline vendor directory.", err);
+    }
+}
+
+async function loadSpecialEventsFromBackend() {
+    try {
+        const res = await fetch(`${getApiBaseUrl()}/api/special-events`);
+        if (!res.ok) throw new Error("Backend special-events request failed");
+        const data = await res.json();
+        if (Array.isArray(data.special_events)) {
+            stateSpecialEvents = data.special_events;
+            saveLocalState();
+        }
+    } catch (err) {
+        console.warn("[EventEase] Backend unreachable, using local/offline special events archive.", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
     updateAuthUI();
+    await loadVendorsFromBackend();
+    await loadSpecialEventsFromBackend();
     renderLandingCategories();
     populateSubcategoryDropdown("Social & Family", "Weddings (Barat & Nikkah)");
     renderCityVenueVendorOptions();
@@ -1303,7 +1350,30 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", e => {
             e.preventDefault();
             navigateToView(btn.dataset.nav);
+            closeMobileMenu();
         });
+    });
+
+    // Mobile Hamburger Menu Toggle
+    const hamburgerBtn = document.getElementById("btnHamburgerMenu");
+    const mobileNavLinks = document.getElementById("mainNavLinks");
+
+    function closeMobileMenu() {
+        hamburgerBtn?.classList.remove("open");
+        mobileNavLinks?.classList.remove("mobile-open");
+        document.body.style.overflow = "";
+    }
+
+    function toggleMobileMenu() {
+        const isOpen = mobileNavLinks.classList.toggle("mobile-open");
+        hamburgerBtn.classList.toggle("open", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+    }
+
+    hamburgerBtn?.addEventListener("click", toggleMobileMenu);
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 860) closeMobileMenu();
     });
 
     // Hero Showcase Thumbnails (Auto switches domain theme)
@@ -1489,8 +1559,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const fallbackIdx = (stateVendors.length % 72) + 1;
         const customImg = document.getElementById("vImage").value.trim();
-        const newVendor = {
-            id: Date.now(),
+        const newVendorPayload = {
             vendor_name: document.getElementById("vName").value.trim(),
             vendor_type: document.getElementById("vType").value,
             venue_subtype: document.getElementById("vType").value,
@@ -1512,12 +1581,33 @@ document.addEventListener("DOMContentLoaded", () => {
             added_by_user: currentUser.full_name
         };
 
-        stateVendors.unshift(newVendor);
+        let savedVendor = { id: Date.now(), ...newVendorPayload };
+        let persistedToDb = false;
+        try {
+            const res = await fetch(`${getApiBaseUrl()}/api/vendors`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newVendorPayload)
+            });
+            if (res.ok) {
+                const data = await res.json();
+                savedVendor = data.vendor;
+                persistedToDb = !!data.persisted_to_database;
+            }
+        } catch (err) {
+            console.warn("[EventEase] Backend unreachable, vendor saved locally only.", err);
+        }
+
+        stateVendors.unshift(savedVendor);
         saveLocalState();
         renderVendorsDirectory();
         renderCityVenueVendorOptions();
         e.target.reset();
         window.scrollTo({ top: 200, behavior: "smooth" });
+
+        if (persistedToDb) {
+            console.log("[EventEase] Vendor permanently saved to Neon database.");
+        }
     });
 
     // Special Event Form (Custom User Input + Email Response)
@@ -1538,13 +1628,22 @@ document.addEventListener("DOMContentLoaded", () => {
             signature_elements: document.getElementById("specElements").value.trim()
         };
 
-        fetch(`${getApiBaseUrl()}/api/special-events`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(entry)
-        }).catch(() => {});
+        let finalEntry = entry;
+        try {
+            const res = await fetch(`${getApiBaseUrl()}/api/special-events`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(entry)
+            });
+            if (res.ok) {
+                const data = await res.json();
+                finalEntry = data.special_event || entry;
+            }
+        } catch (err) {
+            console.warn("[EventEase] Backend unreachable, special event saved locally only.", err);
+        }
 
-        stateSpecialEvents.unshift(entry);
+        stateSpecialEvents.unshift(finalEntry);
         saveLocalState();
         renderSpecialEventsArchive();
 
@@ -1554,49 +1653,129 @@ document.addEventListener("DOMContentLoaded", () => {
         e.target.reset();
     });
 
-    // Contact Form
-    document.getElementById("contactForm").addEventListener("submit", e => {
+    // Contact Form -> Sends to Backend /api/contact (Neon-backed when connected)
+    document.getElementById("contactForm").addEventListener("submit", async e => {
         e.preventDefault();
         const name = document.getElementById("cName").value.trim();
+        const payload = {
+            sender_name: name,
+            sender_email: document.getElementById("cEmail").value.trim(),
+            sender_phone: document.getElementById("cPhone").value.trim(),
+            event_category: document.getElementById("cCategory").value,
+            message: document.getElementById("cMessage").value.trim()
+        };
+
+        try {
+            await fetch(`${getApiBaseUrl()}/api/contact`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        } catch (err) {
+            console.warn("[EventEase] Backend unreachable, contact message not persisted to server.", err);
+        }
+
         const banner = document.getElementById("contactSuccessBanner");
+        banner.classList.remove("hidden", "status-banner-error");
         banner.textContent = `Thank you, ${name}! Your consultation inquiry has been sent to Warisha Noor (warishanoor301@gmail.com | 0340 8704093).`;
-        banner.classList.remove("hidden");
         e.target.reset();
     });
 
-    // Login Form -> Unlocks Dashboard Tab
-    document.getElementById("loginForm").addEventListener("submit", e => {
+    // Login Form -> Verifies Real Account via Backend/Neon, Unlocks Dashboard Tab
+    document.getElementById("loginForm").addEventListener("submit", async e => {
         e.preventDefault();
         const email = document.getElementById("loginEmail").value.trim();
-        currentUser = {
-            full_name: email.toLowerCase().includes("warisha") ? "Warisha Noor" : email.split("@")[0].replace(/\./g, " "),
-            email,
-            phone: "0340 8704093",
-            city: "Lahore",
-            role: email.toLowerCase().includes("warisha") ? "Founder & Lead Architect" : "Registered Event Planner"
-        };
-        isAccountLoggedIn = true;
-        saveLocalState();
-        updateAuthUI();
-        renderDashboard();
-        navigateToView("dashboard");
+        const password = document.getElementById("loginPass").value.trim();
+        const errorBanner = document.getElementById("loginErrorBanner");
+        errorBanner.classList.add("hidden");
+
+        try {
+            const res = await fetch(`${getApiBaseUrl()}/api/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                errorBanner.textContent = data.error || "Login failed. Please check your email and password.";
+                errorBanner.classList.remove("hidden");
+                return;
+            }
+
+            currentUser = data.user;
+            isAccountLoggedIn = true;
+            saveLocalState();
+            updateAuthUI();
+            renderDashboard();
+            navigateToView("dashboard");
+        } catch (err) {
+            // Backend fully unreachable (e.g. offline demo) -- allow lenient local login
+            currentUser = {
+                full_name: email.toLowerCase().includes("warisha") ? "Warisha Noor" : email.split("@")[0].replace(/\./g, " "),
+                email,
+                phone: "0340 8704093",
+                city: "Lahore",
+                role: email.toLowerCase().includes("warisha") ? "Founder & Lead Architect" : "Registered Event Planner"
+            };
+            isAccountLoggedIn = true;
+            saveLocalState();
+            updateAuthUI();
+            renderDashboard();
+            navigateToView("dashboard");
+        }
     });
 
-    // Sign Up Form -> Unlocks Dashboard Tab
-    document.getElementById("signupForm").addEventListener("submit", e => {
+    // Sign Up Form -> Creates Real Account via Backend/Neon, Unlocks Dashboard Tab
+    document.getElementById("signupForm").addEventListener("submit", async e => {
         e.preventDefault();
-        currentUser = {
+        const errorBanner = document.getElementById("signupErrorBanner");
+        errorBanner.classList.add("hidden");
+
+        const payload = {
             full_name: document.getElementById("regName").value.trim(),
             email: document.getElementById("regEmail").value.trim(),
             phone: document.getElementById("regPhone").value.trim(),
             city: document.getElementById("regCity").value,
-            role: document.getElementById("regRole").value
+            role: document.getElementById("regRole").value,
+            password: document.getElementById("regPass").value.trim()
         };
-        isAccountLoggedIn = true;
-        saveLocalState();
-        updateAuthUI();
-        renderDashboard();
-        navigateToView("dashboard");
+
+        try {
+            const res = await fetch(`${getApiBaseUrl()}/api/auth/signup`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                errorBanner.textContent = data.error || "Sign up failed. Please try a different email.";
+                errorBanner.classList.remove("hidden");
+                return;
+            }
+
+            currentUser = data.user;
+            isAccountLoggedIn = true;
+            saveLocalState();
+            updateAuthUI();
+            renderDashboard();
+            navigateToView("dashboard");
+        } catch (err) {
+            // Backend fully unreachable (e.g. offline demo) -- allow local-only account creation
+            currentUser = {
+                full_name: payload.full_name,
+                email: payload.email,
+                phone: payload.phone,
+                city: payload.city,
+                role: payload.role
+            };
+            isAccountLoggedIn = true;
+            saveLocalState();
+            updateAuthUI();
+            renderDashboard();
+            navigateToView("dashboard");
+        }
     });
 
     // Logout Button
