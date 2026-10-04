@@ -4,7 +4,7 @@
  * 100% English Interface | 12 Pakistani Cities | 72 Unique Vendor Images | Auto Domain Theme
  */
 
-const DEFAULT_RENDER_API_URL = "";
+const DEFAULT_RENDER_API_URL = "https://eventeease.onrender.com";
 
 function getApiBaseUrl() {
     const saved = localStorage.getItem("EVENTEASE_API_URL");
