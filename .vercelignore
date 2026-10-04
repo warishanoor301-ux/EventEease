@@ -1,0 +1,11 @@
+app.py
+algorithm.py
+schema.sql
+init_db.py
+requirements.txt
+render.yaml
+.python-version
+Procfile
+.env.example
+__pycache__/
+*.pyc
