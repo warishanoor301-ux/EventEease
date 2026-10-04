@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="burgundy-gold">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventEase — Luxury Pakistani Event Architecture &amp; Granular Cost Planner</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- TOP ARCHITECT & AUTOMATIC DOMAIN THEME BAR -->
+    <div class="topbar no-print">
+        <div class="container topbar-inner">
+            <div class="topbar-left">
+                <span class="ornament-diamond"></span>
+                <span>FOUNDER &amp; LEAD ARCHITECT: <strong>WARISHA NOOR</strong></span>
+                <span class="divider-pipe">|</span>
+                <a href="mailto:warishanoor301@gmail.com">warishanoor301@gmail.com</a>
+                <span class="divider-pipe">|</span>
+                <a href="tel:03408704093">0340 8704093</a>
+            </div>
+            <div class="topbar-right">
+                <span class="theme-switcher-label">Active Domain Theme:</span>
+                <span class="theme-pill active" id="activeDomainThemeIndicator">
+                    Social &amp; Family — Royal Burgundy &amp; Imperial Gold
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN LUXURY NAVIGATION HEADER -->
+    <header class="navbar no-print">
+        <div class="container nav-inner">
+            <a href="#home" class="brand" data-nav="home">
+                <div class="brand-crest">
+                    <svg viewBox="0 0 40 40" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polygon points="20,3 37,20 20,37 3,20" />
+                        <polygon points="20,9 31,20 20,31 9,20" />
+                        <circle cx="20" cy="20" r="3" fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">EventEase</span>
+                    <span class="brand-subtitle">Pakistani Event Intelligence</span>
+                </div>
+            </a>
+
+            <nav class="nav-links" id="mainNavLinks">
+                <button type="button" class="nav-link active" data-nav="home">Home</button>
+                <button type="button" class="nav-link" data-nav="plan-builder">Plan Builder</button>
+                <button type="button" class="nav-link" data-nav="special-event">Special Event</button>
+                <button type="button" class="nav-link" data-nav="vendors">Vendors &amp; Resources</button>
+                <button type="button" class="nav-link" data-nav="about">About Us</button>
+                <button type="button" class="nav-link" data-nav="contact">Contact Us</button>
+                <!-- Unlocked as the final tab after Login or Sign Up -->
+                <button type="button" class="nav-link hidden" data-nav="dashboard" id="navDashboardTab">Dashboard</button>
+            </nav>
+
+            <div class="nav-actions">
+                <button type="button" class="btn-outline-sm" data-nav="login" id="navLoginBtn">Login</button>
+                <button type="button" class="btn-gold-sm" data-nav="signup" id="navSignupBtn">Sign Up</button>
+                <button type="button" class="btn-ghost-gold hidden" data-nav="dashboard" id="navUserBadge">
+                    <span id="navUserLabel">Warisha Noor</span>
+                </button>
+                <button type="button" class="btn-icon-outline" id="btnConfigApi" title="Configure Render Backend Server URL">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- RENDER SERVER LINK MODAL -->
+    <div id="apiModal" class="modal-backdrop hidden no-print">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Render Backend &amp; Neon Database Link</h3>
+                <button type="button" id="btnCloseModal" class="close-btn">&times;</button>
+            </div>
+            <p class="modal-desc">
+                Paste your deployed <strong>Render.com</strong> backend URL below (for example: <code>https://eventease-backend.onrender.com</code>). When left blank, EventEase runs its built-in deterministic algorithm engine.
+            </p>
+            <label class="field-label" for="renderUrlInput">Render Backend Server URL</label>
+            <input type="url" id="renderUrlInput" class="text-input" placeholder="https://eventease-backend.onrender.com" />
+            <div class="modal-actions">
+                <button type="button" id="btnSaveApiUrl" class="btn-gold">Save &amp; Connect</button>
+                <button type="button" id="btnResetApiUrl" class="btn-outline">Use Built-in Engine</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         VIEW 1: HOME PAGE (LUXURY LANDING PAGE)
+         ==================================================================== -->
+    <main id="view-home" class="page-view active-view">
+        <section class="luxury-hero">
+            <div class="hero-ambient-glow"></div>
+            <div class="container hero-layout">
+                <div class="hero-copy">
+                    <div class="eyebrow-badge">
+                        <span class="ornament-line"></span>
+                        <span>PAKISTAN'S GRANULAR EVENT &amp; COST ARCHITECT</span>
+                    </div>
+                    <h1 class="display-heading">
+                        Plan Every Single Detail with <span class="gold-italic">Royal Pakistani Precision</span>
+                    </h1>
+                    <p class="hero-lead">
+                        Configure every requirement from Online vs On-Site Venue selection, Dish-by-Dish Per-Guest Catering, and 12-City Verified Vendors to a Day-by-Day &amp; Hour-by-Hour Execution Schedule comparing your Estimated Budget against Actual Calculated Cost.
+                    </p>
+                    <div class="hero-cta-group">
+                        <button type="button" class="btn-gold-lg" data-nav="plan-builder">
+                            Open Granular Plan Builder
+                        </button>
+                        <button type="button" class="btn-outline-light-lg" data-nav="vendors">
+                            12-City Vendor Directory (72+ Profiles)
+                        </button>
+                        <button type="button" class="btn-outline-light-lg" data-nav="special-event">
+                            Custom Special Event Request
+                        </button>
+                    </div>
+
+                    <div class="hero-metrics-row">
+                        <div class="metric-item">
+                            <strong>12 Cities</strong>
+                            <span>72+ Unique Vendor Profiles</span>
+                        </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-item">
+                            <strong>22 Modules</strong>
+                            <span>Interactive Checkbox Cost Engine</span>
+                        </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-item">
+                            <strong>Live Bill</strong>
+                            <span>Estimated vs Actual Cost Tracker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual-frame">
+                    <div class="frame-card">
+                        <div class="frame-image-wrap">
+                            <img id="heroShowcaseImg" src="assets/images/pakistani-wedding-stage.jpg" alt="Pakistani Luxury Event Showcase" class="hero-main-img" />
+                            <div class="frame-overlay-caption">
+                                <span class="caption-tag" id="heroShowcaseTag">Social &amp; Family • Royal Burgundy &amp; Gold</span>
+                                <h3 id="heroShowcaseTitle">Royal Barat &amp; Walima Marquee Architecture</h3>
+                                <p id="heroShowcaseSub">Carved Mughal arches, crystal chandeliers, and bespoke floral artistry across 12 Pakistani cities.</p>
+                            </div>
+                        </div>
+                        <div class="hero-thumbs-row">
+                            <button type="button" class="hero-thumb active" data-img="assets/images/pakistani-wedding-stage.jpg" data-tag="Social & Family • Royal Burgundy & Gold" data-title="Royal Barat & Walima Marquee Architecture" data-sub="Carved Mughal arches, crystal chandeliers, and bespoke floral artistry." data-domain="Social & Family">
+                                <img src="assets/images/pakistani-wedding-stage.jpg" alt="Royal Wedding Stage" />
+                                <span>Royal Wedding</span>
+                            </button>
+                            <button type="button" class="hero-thumb" data-img="assets/images/pakistani-mehndi-night.jpg" data-tag="Entertainment & Performance • Velvet Crimson & Gold" data-title="Heritage Mehndi & Sufi Musical Courtyard" data-sub="Thousands of fresh marigold garlands, brass lanterns, and live acoustic seating." data-domain="Entertainment & Performance">
+                                <img src="assets/images/pakistani-mehndi-night.jpg" alt="Mehndi & Sufi Night" />
+                                <span>Mehndi &amp; Sufi</span>
+                            </button>
+                            <button type="button" class="hero-thumb" data-img="assets/images/pakistani-corporate-gala.jpg" data-tag="Corporate & Business • Executive Obsidian & Gold" data-title="Executive Summit & Excellence Award Gala" data-sub="Wide-span SMD LED backdrops, acoustic ballrooms, and VIP protocol." data-domain="Corporate & Business">
+                                <img src="assets/images/pakistani-corporate-gala.jpg" alt="Corporate Gala" />
+                                <span>Corporate Gala</span>
+                            </button>
+                            <button type="button" class="hero-thumb" data-img="assets/images/pakistani-academic-convocation.jpg" data-tag="Academic & Educational • Royal Navy & Gold" data-title="University Convocation & Academic Convention" data-sub="Dignified auditorium staging, crested podiums, and institutional grandeur." data-domain="Academic & Educational">
+                                <img src="assets/images/pakistani-academic-convocation.jpg" alt="Academic Convocation" />
+                                <span>Academic</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 MAIN CATEGORIES & 50+ SUBCATEGORIES -->
+        <section class="section-block">
+            <div class="container">
+                <div class="section-heading-center">
+                    <span class="section-eyebrow">FIVE MASTER DOMAINS &amp; 50+ EXPANDED SUBCATEGORIES</span>
+                    <h2 class="serif-title">Select Your Event Domain to Automatically Apply Its Color Theme</h2>
+                    <p class="section-lead">
+                        Selecting any domain or subcategory below automatically switches the website to that domain's signature color palette and opens the Interactive 22-Requirement Configurator.
+                    </p>
+                </div>
+                <div class="categories-showcase-grid" id="landingCategoriesGrid"></div>
+            </div>
+        </section>
+
+        <!-- HERITAGE & ALGORITHMIC PRECISION SECTION -->
+        <section class="section-block section-tinted">
+            <div class="container">
+                <div class="split-feature-grid">
+                    <div class="split-images-collage">
+                        <div class="collage-card">
+                            <img src="assets/images/pakistani-shahi-catering.jpg" alt="Pakistani Royal Catering" />
+                            <div class="collage-label">Dish-by-Dish Per-Guest Catering &amp; Raw KG Ration Engine</div>
+                        </div>
+                        <div class="collage-card">
+                            <img src="assets/images/pakistani-banquet-marquee.jpg" alt="Pakistani Luxury Marquee Exterior" />
+                            <div class="collage-label">72+ Unique Vendor Profiles Across 12 Major Pakistani Cities</div>
+                        </div>
+                    </div>
+
+                    <div class="split-copy">
+                        <span class="section-eyebrow">GRANULAR COST &amp; SCHEDULE ARCHITECTURE</span>
+                        <h2 class="serif-title">Every Requirement, Dish, Vendor &amp; Hour Planned to Perfection</h2>
+                        <p class="body-lg">
+                            EventEase asks for your exact preferences across all 22 universal event requirements — comparing your initial Estimated Budget against the real Actual Cost of your selected venue, dishes, and production options.
+                        </p>
+                        <div class="feature-pillars">
+                            <div class="pillar-row">
+                                <div class="pillar-num">01</div>
+                                <div>
+                                    <h4>Online vs On-Site Venue &amp; Vendor Matching</h4>
+                                    <p>Choose virtual platforms (Zoom, Google Meet, Microsoft Teams) or pick from verified Banquet Halls, Marquees, and Lawns in 12 Pakistani cities.</p>
+                                </div>
+                            </div>
+                            <div class="pillar-row">
+                                <div class="pillar-num">02</div>
+                                <div>
+                                    <h4>Interactive Dish-by-Dish Per-Guest Calculator</h4>
+                                    <p>Select individual food items and watch each dish multiply automatically by your guest count alongside raw kitchen quantities in kilograms.</p>
+                                </div>
+                            </div>
+                            <div class="pillar-row">
+                                <div class="pillar-num">03</div>
+                                <div>
+                                    <h4>Complete Countdown &amp; Event-Day Hourly Schedule</h4>
+                                    <p>Generates a complete Day-by-Day preparation calendar from today until your event date plus an Hour-by-Hour execution schedule for event day.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="split-actions">
+                            <button type="button" class="btn-gold" data-nav="plan-builder">Start Planning Your Event</button>
+                            <button type="button" class="btn-outline" data-nav="special-event">Submit Outside-Domain Special Event</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 2: GRANULAR INTERACTIVE PLAN BUILDER PAGE
+         ==================================================================== -->
+    <main id="view-plan-builder" class="page-view">
+        <section class="page-Subheader no-print">
+            <div class="container">
+                <span class="section-eyebrow">COMPLETE 22-REQUIREMENT INTERACTIVE CONFIGURATOR</span>
+                <h1 class="serif-title">Granular Event Plan Builder &amp; Live Cost Calculator</h1>
+                <p>Select your event domain (which automatically sets the website's color theme), choose Online vs On-Site venue, select individual dishes, and tick your required event options below.</p>
+            </div>
+        </section>
+
+        <!-- STICKY LIVE BILL & BUDGET COMPARISON BAR -->
+        <div class="sticky-bill-bar no-print">
+            <div class="container sticky-bill-inner">
+                <div class="bill-metric">
+                    <span class="bill-label">1. Your Estimated Budget</span>
+                    <strong class="bill-val" id="liveEstBudget">PKR 850,000</strong>
+                </div>
+                <div class="bill-metric">
+                    <span class="bill-label">Actual Calculated Cost (Live)</span>
+                    <strong class="bill-val gold-text" id="liveActualCost">PKR 0</strong>
+                </div>
+                <div class="bill-metric">
+                    <span class="bill-label">Per-Guest Actual Rate</span>
+                    <strong class="bill-val" id="livePerGuest">PKR 0 / Guest</strong>
+                </div>
+                <div class="bill-metric">
+                    <span class="bill-label">Estimated vs Actual Status</span>
+                    <strong class="bill-status" id="liveVarianceBadge">Calculating...</strong>
+                </div>
+                <div class="bill-action">
+                    <button type="button" class="btn-gold" id="btnStickyGenerate">
+                        Generate Final Master Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container main-layout">
+            <form id="granularPlanForm" class="no-print">
+                <!-- STEP 01: REQUIREMENTS #1 (BUDGET), #2 (DATE & TIME), #4 (GUEST LIST) -->
+                <section class="luxury-card config-section">
+                    <div class="card-header-bar">
+                        <div>
+                            <span class="step-tag">STEP 01 • REQUIREMENTS #1 (BUDGET), #2 (DATE &amp; TIME) &amp; #4 (GUEST LIST)</span>
+                            <h2 class="serif-title-sm">Event Identity, Final Date, Guest Breakdown &amp; Your Estimated Budget</h2>
+                        </div>
+                        <div class="presets-inline">
+                            <button type="button" class="preset-btn" data-preset="royal_wedding">Preset: Royal Wedding</button>
+                            <button type="button" class="preset-btn" data-preset="academic_convocation">Preset: Convocation</button>
+                            <button type="button" class="preset-btn" data-preset="online_summit">Preset: Online Conference</button>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label class="field-label" for="clientName">Event Title / Host Name</label>
+                            <input type="text" id="clientName" class="text-input" value="Warisha Noor Family Royal Barat" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="mainCategory">Main Event Domain (Auto-Switches Color Theme)</label>
+                            <select id="mainCategory" class="select-input">
+                                <option value="Social & Family">Social &amp; Family (Burgundy &amp; Gold Theme)</option>
+                                <option value="Corporate & Business">Corporate &amp; Business (Obsidian &amp; Gold Theme)</option>
+                                <option value="Entertainment & Performance">Entertainment &amp; Performance (Velvet Crimson Theme)</option>
+                                <option value="Academic & Educational">Academic &amp; Educational (Navy Blue &amp; Gold Theme)</option>
+                                <option value="Community & Cultural">Community &amp; Cultural (Heritage Emerald Theme)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="subCategory">Specific Event Subcategory</label>
+                            <select id="subCategory" class="select-input"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="totalBudget">
+                                Req #1: Your Estimated Budget (PKR): <strong id="budgetDisplay" class="gold-highlight">PKR 850,000</strong>
+                            </label>
+                            <input type="number" id="totalBudget" class="text-input" min="10000" max="50000000" step="5000" value="850000" required />
+                            <input type="range" id="budgetSlider" class="luxury-slider" min="25000" max="5000000" step="25000" value="850000" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="guests">
+                                Req #4: Total Guests: <strong id="guestsDisplay" class="gold-highlight">300 Guests</strong>
+                            </label>
+                            <input type="number" id="guests" class="text-input" min="10" max="5000" step="5" value="300" required />
+                            <input type="range" id="guestsSlider" class="luxury-slider" min="10" max="1500" step="10" value="300" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="guestBreakdownNote">Req #4 Detail: Family, VIPs &amp; Friends Breakdown</label>
+                            <input type="text" id="guestBreakdownNote" class="text-input" value="180 Family Members, 90 Friends &amp; Colleagues, 30 VIP Guests" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="eventDate">Req #2: Final Event Date (For Countdown Plan)</label>
+                            <input type="date" id="eventDate" class="text-input" value="2026-11-15" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="eventStartTime">Req #2: Event Start Time</label>
+                            <input type="time" id="eventStartTime" class="text-input" value="19:00" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="eventDuration">Req #2: Duration &amp; Season</label>
+                            <div class="form-grid-2">
+                                <select id="eventDuration" class="select-input">
+                                    <option value="3">3 Hours</option>
+                                    <option value="4" selected>4 Hours (Standard)</option>
+                                    <option value="5">5 Hours</option>
+                                    <option value="6">6 Hours (Full Event)</option>
+                                </select>
+                                <select id="seasonSelect" class="select-input">
+                                    <option value="Winter">Winter</option>
+                                    <option value="Spring">Spring</option>
+                                    <option value="Summer">Peak Summer</option>
+                                    <option value="Monsoon">Monsoon / Rainy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 02: REQUIREMENT #3 (LOCATION & VENUE: ONLINE VS ON-SITE + CITY VENDOR HALLS) -->
+                <section class="luxury-card config-section">
+                    <div class="card-header-bar">
+                        <div>
+                            <span class="step-tag">STEP 02 • REQUIREMENT #3 (LOCATION, VENUE &amp; CITY BANQUET VENDOR SELECTION)</span>
+                            <h2 class="serif-title-sm">Choose Online Platform OR On-Site City Venue &amp; Hall</h2>
+                        </div>
+                        <div class="mode-switch-pills">
+                            <button type="button" class="mode-btn active" id="btnModeOnsite" data-loc-mode="On-Site">On-Site Physical Location</button>
+                            <button type="button" class="mode-btn" id="btnModeOnline" data-loc-mode="Online">Online / Virtual Event (Zoom, Meet, Teams)</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="locationMode" value="On-Site" />
+
+                    <!-- ONLINE EVENT OPTIONS PANEL -->
+                    <div id="onlineVenuePanel" class="sub-panel hidden">
+                        <h4 class="sub-panel-title">Online Event Platform &amp; Streaming Options (Select What You Need):</h4>
+                        <div class="checkbox-cards-grid" id="onlineOptionsGrid">
+                            <label class="check-card">
+                                <input type="checkbox" class="online-opt-check" data-name="Zoom Webinar / Large Meeting Pro License (Up to 1000 Attendees)" data-cost="18000" />
+                                <div class="check-card-body">
+                                    <strong>Zoom Pro / Webinar License</strong>
+                                    <span>HD breakout rooms, Q&amp;A, recording &amp; 1000 participant capacity</span>
+                                    <em class="cost-tag">PKR 18,000</em>
+                                </div>
+                            </label>
+                            <label class="check-card">
+                                <input type="checkbox" class="online-opt-check" data-name="Google Meet Enterprise Workspace Room" data-cost="12000" />
+                                <div class="check-card-body">
+                                    <strong>Google Meet Enterprise Room</strong>
+                                    <span>Browser-based instant join, calendar invites &amp; cloud recording</span>
+                                    <em class="cost-tag">PKR 12,000</em>
+                                </div>
+                            </label>
+                            <label class="check-card">
+                                <input type="checkbox" class="online-opt-check" data-name="Microsoft Teams Townhall & Live Event Suite" data-cost="15000" />
+                                <div class="check-card-body">
+                                    <strong>Microsoft Teams Live Townhall</strong>
+                                    <span>Corporate/Academic presenter backstage &amp; attendance sheet</span>
+                                    <em class="cost-tag">PKR 15,000</em>
+                                </div>
+                            </label>
+                            <label class="check-card">
+                                <input type="checkbox" class="online-opt-check" data-name="Multi-Camera StreamYard + YouTube/Facebook Live Broadcast" data-cost="25000" />
+                                <div class="check-card-body">
+                                    <strong>StreamYard + YouTube Live Broadcast</strong>
+                                    <span>Custom branded overlays, lower-thirds &amp; technical producer</span>
+                                    <em class="cost-tag">PKR 25,000</em>
+                                </div>
+                            </label>
+                            <label class="check-card">
+                                <input type="checkbox" class="online-opt-check" data-name="Digital E-Certificates, Online Quiz & Moderator Support" data-cost="10000" />
+                                <div class="check-card-body">
+                                    <strong>Digital E-Certificates &amp; Technical Moderator</strong>
+                                    <span>Automated participant certificates &amp; live chat moderation</span>
+                                    <em class="cost-tag">PKR 10,000</em>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- ON-SITE PHYSICAL VENUE PANEL -->
+                    <div id="onsiteVenuePanel" class="sub-panel">
+                        <div class="form-grid-3" style="margin-bottom: 18px;">
+                            <div class="form-group">
+                                <label class="field-label" for="city">Select Pakistani City (12 Major Cities)</label>
+                                <select id="city" class="select-input">
+                                    <option value="Lahore">Lahore</option>
+                                    <option value="Karachi">Karachi</option>
+                                    <option value="Islamabad">Islamabad</option>
+                                    <option value="Rawalpindi">Rawalpindi</option>
+                                    <option value="Faisalabad">Faisalabad</option>
+                                    <option value="Multan">Multan</option>
+                                    <option value="Peshawar">Peshawar</option>
+                                    <option value="Quetta">Quetta</option>
+                                    <option value="Sialkot">Sialkot</option>
+                                    <option value="Gujranwala">Gujranwala</option>
+                                    <option value="Hyderabad">Hyderabad</option>
+                                    <option value="Abbottabad">Abbottabad / Murree</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="field-label" for="venuePreference">On-Site Venue Style</label>
+                                <select id="venuePreference" class="select-input">
+                                    <option value="Banquet Hall">Banquet Hall (Indoor AC)</option>
+                                    <option value="Grand Marquee">Luxury Grand Marquee</option>
+                                    <option value="Outdoor Lawn / Farmhouse">Outdoor Lawn / Farmhouse</option>
+                                    <option value="Boutique Hall">Boutique Hall / Rooftop Lounge</option>
+                                    <option value="Convention Auditorium">University / Convention Auditorium</option>
+                                    <option value="Home Setup">Home Setup (Own Lawn / Rooftop — PKR 0 Hall Rent)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="field-label">Algorithm Venue Recommendation</label>
+                                <div class="inline-rec-pill" id="venueSmartSuggestion">
+                                    Matching verified halls in your selected city...
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="sub-panel-title">Select a Verified Venue / Hall in <span id="selectedCityVenueLabel">Lahore</span> (Or Choose Home/Custom):</h4>
+                        <div id="cityVenueVendorCards" class="checkbox-cards-grid"></div>
+                    </div>
+                </section>
+
+                <!-- STEP 03: REQUIREMENT #6 (GRANULAR FOOD & DRINKS DISH-BY-DISH SELECTOR) -->
+                <section class="luxury-card config-section">
+                    <div class="card-header-bar">
+                        <div>
+                            <span class="step-tag">STEP 03 • REQUIREMENT #6 (FOOD, DRINKS &amp; CATERING DISH-BY-DISH SELECTOR)</span>
+                            <h2 class="serif-title-sm">Select Individual Dishes (Per-Guest Rate Automatically Multiplies by <span id="foodGuestsCountLabel">300</span> Guests)</h2>
+                        </div>
+                        <div class="presets-inline">
+                            <button type="button" class="btn-mini" id="btnMenuEconomy">Select Economy 1-Dish</button>
+                            <button type="button" class="btn-mini" id="btnMenuStandard">Select Standard 2-Dish</button>
+                            <button type="button" class="btn-mini" id="btnMenuLuxury">Select Royal VIP Buffet</button>
+                            <button type="button" class="btn-mini" id="btnMenuClear">No Catering (Online/Self)</button>
+                        </div>
+                    </div>
+
+                    <div class="advisory-item advisory-primary" style="margin-bottom: 16px;" id="foodSmartSuggestion">
+                        Smart Catering Recommendation: Select 1 Welcome Drink, 1–2 Main Courses, 1 Rice + Naan, 1 BBQ Starter, and 1 Dessert for an ideal balanced menu.
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 18px;">
+                        <label class="field-label" for="cityCatererSelect">Recommended Catering Vendor in Your Selected City:</label>
+                        <select id="cityCatererSelect" class="select-input"></select>
+                    </div>
+
+                    <div id="dishesConfiguratorContainer" class="dishes-groups-stack"></div>
+                </section>
+
+                <!-- STEP 04: INTERACTIVE CHECKBOXES FOR ALL REMAINING REQUIREMENTS (#5, #7 TO #22) -->
+                <section class="luxury-card config-section">
+                    <div class="card-header-bar">
+                        <div>
+                            <span class="step-tag">STEP 04 • REQUIREMENTS #5 &amp; #7 TO #22 (COMPLETE CHECKBOX COST CONFIGURATOR)</span>
+                            <h2 class="serif-title-sm">Select What to Include Across All Remaining Event Requirements</h2>
+                            <p class="muted-sub">Tick or untick any item below. Every checked option is added to your Live Actual Cost and included in your Final Master Report.</p>
+                        </div>
+                        <div class="presets-inline">
+                            <button type="button" class="btn-mini" id="btnSelectRecommendedReqs">Tick Recommended Essentials</button>
+                            <button type="button" class="btn-mini" id="btnClearAllReqs">Untick All Extras</button>
+                        </div>
+                    </div>
+
+                    <div id="requirementsCheckboxesContainer" class="reqs-accordion-grid"></div>
+
+                    <div class="form-submit-bar" style="margin-top: 24px;">
+                        <button type="submit" class="btn-gold-lg full-width-btn" id="btnGenerate">
+                            Generate Complete Event Plan, Cost Comparison &amp; Day-by-Day Schedule
+                        </button>
+                    </div>
+                </section>
+            </form>
+
+            <!-- ================================================================
+                 FINAL GENERATED MASTER REPORT SECTION
+                 ================================================================ -->
+            <div id="finalReportSection" class="plan-output-stack">
+                <section class="luxury-card summary-hero-card">
+                    <div class="summary-top-row">
+                        <div>
+                            <div class="code-and-theme">
+                                <span class="plan-badge" id="outPlanCode">PLAN #EE-READY</span>
+                                <span class="theme-indicator-badge" id="outThemeBadge">Complete Event Blueprint</span>
+                            </div>
+                            <h2 class="serif-title-md" id="outPlanTitle">Final Event Execution Report &amp; Cost Comparison</h2>
+                            <p class="muted-sub" id="outSubtitle"></p>
+                        </div>
+                        <div class="report-top-actions no-print">
+                            <button type="button" class="btn-gold" id="btnPrintPlan">
+                                Print / Save Complete Report as PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="kpi-grid-4">
+                        <div class="kpi-box">
+                            <span class="kpi-title">1. User's Estimated Budget</span>
+                            <strong class="kpi-num" id="kpiEstimatedBudget">PKR 850,000</strong>
+                            <span class="kpi-foot" id="kpiCity">Target Budget</span>
+                        </div>
+                        <div class="kpi-box">
+                            <span class="kpi-title">2. Actual Calculated Cost</span>
+                            <strong class="kpi-num" id="kpiActualCost">PKR 0</strong>
+                            <span class="kpi-foot" id="kpiPerHead">Based on Selected Items</span>
+                        </div>
+                        <div class="kpi-box">
+                            <span class="kpi-title">3. Budget Difference / Variance</span>
+                            <strong class="kpi-num" id="kpiVariance">PKR 0</strong>
+                            <span class="kpi-foot" id="kpiVarianceStatus">Balanced</span>
+                        </div>
+                        <div class="kpi-box">
+                            <span class="kpi-title">4. Event Date &amp; Countdown</span>
+                            <strong class="kpi-num" id="kpiEventDate">15 Nov 2026</strong>
+                            <span class="kpi-foot" id="kpiDaysLeft">Days Remaining</span>
+                        </div>
+                    </div>
+
+                    <div class="advisory-bars">
+                        <div class="advisory-item advisory-primary" id="outCostVerdict"></div>
+                        <div class="advisory-item advisory-climate" id="outWeatherAlert"></div>
+                    </div>
+                </section>
+
+                <!-- REPORT MODULE 1: CATEGORY-BY-CATEGORY ACTUAL COST BREAKDOWN -->
+                <section class="luxury-card">
+                    <div class="module-header">
+                        <div>
+                            <span class="step-tag">REPORT MODULE 01 • ESTIMATED VS ACTUAL FINANCIAL LEDGER</span>
+                            <h3 class="serif-title-sm">Actual Cost Breakdown by Selected Components</h3>
+                        </div>
+                        <span class="pill-tag" id="outLocationModeBadge">On-Site Event</span>
+                    </div>
+                    <div id="budgetBreakdownGrid" class="budget-grid-2"></div>
+                </section>
+
+                <!-- REPORT MODULE 2: SELECTED DISHES, CATERING BILL & RAW KG RATION CALCULATOR -->
+                <section class="luxury-card">
+                    <div class="module-header">
+                        <div>
+                            <span class="step-tag">REPORT MODULE 02 • SELECTED MENU &amp; RAW RATION QUANTITIES</span>
+                            <h3 class="serif-title-sm">Selected Food &amp; Drinks Bill + Raw Ingredients Ration (KG)</h3>
+                        </div>
+                        <span class="pill-tag" id="outCatererNameBadge">Selected Catering Plan</span>
+                    </div>
+
+                    <div id="selectedDishesSummaryBox" class="selected-dishes-box"></div>
+
+                    <div class="ration-panel" style="margin-top: 18px;">
+                        <div class="ration-panel-head">
+                            <h4>Estimated Raw Catering Quantities Required (<span id="rationGuestsLabel">300 Guests + 5% Safety Buffer</span>)</h4>
+                            <p>Exact kitchen production quantities required for your guest count:</p>
+                        </div>
+                        <div class="ration-grid-6" id="rationGrid"></div>
+                    </div>
+                </section>
+
+                <!-- REPORT MODULE 3: COMPLETE TIMELINE FROM TODAY TO EVENT DAY + HOUR-BY-HOUR SCHEDULE -->
+                <section class="luxury-card">
+                    <div class="module-header">
+                        <div>
+                            <span class="step-tag">REPORT MODULE 03 • COMPLETE CHRONOLOGICAL EXECUTION PLAN</span>
+                            <h3 class="serif-title-sm">Day-by-Day Preparation Calendar (Today to Event Day) &amp; Event-Day Hourly Schedule</h3>
+                        </div>
+                        <span class="pill-tag" id="outCountdownTag">Countdown Active</span>
+                    </div>
+
+                    <div class="dual-module-grid">
+                        <div>
+                            <h4 class="sub-panel-title">Part A: Day-by-Day Preparation Schedule (From Today to Final Date)</h4>
+                            <div id="preEventTimelineList" class="timeline-stack"></div>
+                        </div>
+                        <div>
+                            <h4 class="sub-panel-title">Part B: Event-Day Hour-by-Hour Execution Schedule</h4>
+                            <div id="eventDayHourlyList" class="timeline-stack"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- REPORT MODULE 4: THE SINGLE CONSOLIDATED 22-ITEM MASTER CHECKLIST -->
+                <section class="luxury-card">
+                    <div class="module-header">
+                        <div>
+                            <span class="step-tag">REPORT MODULE 04 • SINGLE CONSOLIDATED 22-ITEM MASTER LIST</span>
+                            <h3 class="serif-title-sm">Event Requirements — Complete 22-Item Master List (With Your Selections &amp; Costs)</h3>
+                            <p class="mnemonic-banner" id="mnemonicText">
+                                Quick Memory Formula: Budget &rarr; Date &rarr; Venue &rarr; Guests &rarr; Food &rarr; Setup (Seating, Sound, Light, Decor) &rarr; Staff &rarr; Safety &rarr; Payments &rarr; Cleanup.
+                            </p>
+                        </div>
+                        <div class="checklist-meter no-print">
+                            <div class="meter-top">
+                                <span>Execution Readiness</span>
+                                <strong id="checklistPercent">0% (0/22)</strong>
+                            </div>
+                            <div class="meter-bar-bg">
+                                <div class="meter-bar-fill" id="checklistBar" style="width: 0%"></div>
+                            </div>
+                            <div class="meter-actions">
+                                <button type="button" class="btn-mini" id="btnCheckAll">Mark All Done</button>
+                                <button type="button" class="btn-mini" id="btnUncheckAll">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="luxury-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55px;">Done</th>
+                                    <th style="width: 55px;">#</th>
+                                    <th style="width: 210px;">Requirement</th>
+                                    <th>Selected Options &amp; Action Plan</th>
+                                    <th style="width: 170px;">Execution Timeline</th>
+                                    <th style="width: 155px;">Actual / Est. Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody id="masterChecklistBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 3: SPECIAL EVENT PAGE (CUSTOM USER INPUT ONLY — NO PRESETS + EMAIL RESPONSE)
+         ==================================================================== -->
+    <main id="view-special-event" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">BESPOKE OUTSIDE-DOMAIN EVENT SUBMISSIONS</span>
+                <h1 class="serif-title">Special Event Request — Submit Your Own Custom Event Domain</h1>
+                <p>Planning a unique event that does not fall under our standard domains? Enter your own custom domain name, event concept, and complete requirements below along with your email address so our team can send you a tailored response and execution blueprint.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <div class="dual-module-grid">
+                <section class="luxury-card">
+                    <span class="step-tag">CUSTOM EVENT SUBMISSION FORM (ZERO PRESETS)</span>
+                    <h2 class="serif-title-sm">Enter Your Custom Event &amp; Contact Details</h2>
+                    <form id="specialEventForm" class="luxury-form">
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="specUserName">Your Full Name</label>
+                                <input type="text" id="specUserName" class="text-input" placeholder="Enter your full name" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="specUserEmail">Your Email Address (For Sending Our Response)</label>
+                                <input type="email" id="specUserEmail" class="text-input" placeholder="your.email@example.com" required />
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="specUserPhone">Contact Phone / WhatsApp</label>
+                                <input type="text" id="specUserPhone" class="text-input" placeholder="e.g. 0300 1234567" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="specDate">Proposed Event Date</label>
+                                <input type="date" id="specDate" class="text-input" required />
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="specCustomDomain">Your Custom Event Domain Name</label>
+                                <input type="text" id="specCustomDomain" class="text-input" placeholder="Write your own custom event domain" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="specTitle">Your Custom Event Title / Name</label>
+                                <input type="text" id="specTitle" class="text-input" placeholder="Write your custom event title" required />
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="specCity">City / Region</label>
+                                <input type="text" id="specCity" class="text-input" placeholder="Enter city or destination name" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="specLocation">Specific Venue Type or Location Idea</label>
+                                <input type="text" id="specLocation" class="text-input" placeholder="Enter your preferred location or setup" required />
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="specGuests">Expected Number of Guests</label>
+                                <input type="number" id="specGuests" class="text-input" placeholder="Enter guest count" min="1" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="specBudget">Your Estimated Budget (PKR)</label>
+                                <input type="number" id="specBudget" class="text-input" placeholder="Enter estimated budget in PKR" min="1000" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="field-label" for="specElements">Complete Custom Event Description, Food, Setup &amp; Special Requirements</label>
+                            <textarea id="specElements" class="text-input" rows="4" placeholder="Describe everything you want to include in your special event..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-gold-lg full-width-btn">
+                            Submit Custom Special Event &amp; Request Email Response
+                        </button>
+                        <div id="specialEventConfirmBanner" class="status-banner hidden"></div>
+                    </form>
+                </section>
+
+                <section class="luxury-card">
+                    <span class="step-tag">SUBMITTED CUSTOM SPECIAL EVENTS</span>
+                    <h2 class="serif-title-sm">Your Custom Event Requests</h2>
+                    <p class="muted-sub">All custom outside-domain events submitted by users are logged below along with the response email address.</p>
+                    <div id="specialEventsList" class="special-events-stack"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 4: VENDORS & RESOURCES PAGE (12 CITIES • 72 UNIQUE IMAGES + ADD VENDOR)
+         ==================================================================== -->
+    <main id="view-vendors" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">12 PAKISTANI CITIES • 72+ UNIQUE VENDOR PROFILES</span>
+                <h1 class="serif-title">Vendors &amp; Resources — On-Site Locations &amp; Professional Records</h1>
+                <p>Browse verified Banquets, Marquees, Outdoor Lawns, Convention Halls, Royal Caterers, and Decor/Media teams across 12 major Pakistani cities — each with its own unique showcase visual and professional record.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <section class="luxury-card filter-bar-card">
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label class="field-label" for="vendorFilterCity">Filter by City (12 Major Cities)</label>
+                        <select id="vendorFilterCity" class="select-input">
+                            <option value="All">All 12 Pakistani Cities (72+ Vendors)</option>
+                            <option value="Lahore">Lahore (6 Verified Vendors)</option>
+                            <option value="Karachi">Karachi (6 Verified Vendors)</option>
+                            <option value="Islamabad">Islamabad (6 Verified Vendors)</option>
+                            <option value="Rawalpindi">Rawalpindi (6 Verified Vendors)</option>
+                            <option value="Faisalabad">Faisalabad (6 Verified Vendors)</option>
+                            <option value="Multan">Multan (6 Verified Vendors)</option>
+                            <option value="Peshawar">Peshawar (6 Verified Vendors)</option>
+                            <option value="Quetta">Quetta (6 Verified Vendors)</option>
+                            <option value="Sialkot">Sialkot (6 Verified Vendors)</option>
+                            <option value="Gujranwala">Gujranwala (6 Verified Vendors)</option>
+                            <option value="Hyderabad">Hyderabad (6 Verified Vendors)</option>
+                            <option value="Abbottabad">Abbottabad (6 Verified Vendors)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="vendorFilterCategory">Filter by Event Domain</label>
+                        <select id="vendorFilterCategory" class="select-input">
+                            <option value="All">All 5 Event Domains</option>
+                            <option value="Social & Family">Social &amp; Family</option>
+                            <option value="Corporate & Business">Corporate &amp; Business</option>
+                            <option value="Academic & Educational">Academic &amp; Educational</option>
+                            <option value="Entertainment & Performance">Entertainment &amp; Performance</option>
+                            <option value="Community & Cultural">Community &amp; Cultural</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="vendorFilterType">Filter by Vendor Type</label>
+                        <select id="vendorFilterType" class="select-input">
+                            <option value="All">All Vendor &amp; Venue Types</option>
+                            <option value="Banquet & Marquee">Banquet Hall &amp; Marquee</option>
+                            <option value="Outdoor Lawn & Farmhouse">Outdoor Lawn &amp; Farmhouse</option>
+                            <option value="Convention & Auditorium">Convention &amp; Auditorium</option>
+                            <option value="Royal Catering">Royal Catering</option>
+                            <option value="Decor, Sound & Photography">Decor, Sound &amp; Photography</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <span class="step-tag" id="vendorCountLabel">Showing 72 Verified Vendors across 12 Cities</span>
+                    <a href="#addVendorSection" class="btn-gold-sm">+ Add New Vendor with Location</a>
+                </div>
+            </section>
+
+            <div id="vendorsDirectoryGrid" class="vendors-grid"></div>
+
+            <!-- ADD VENDOR FORM -->
+            <section id="addVendorSection" class="luxury-card">
+                <span class="step-tag">USER VENDOR SUBMISSION</span>
+                <h3 class="serif-title-sm">Register a New Banquet Venue or Event Vendor with Location</h3>
+                <form id="addVendorForm" class="luxury-form" style="margin-top: 14px;">
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label class="field-label" for="vName">Banquet / Vendor Name</label>
+                            <input type="text" id="vName" class="text-input" placeholder="e.g. Nishat Grand Royal Marquee" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vType">Vendor Classification</label>
+                            <select id="vType" class="select-input">
+                                <option value="Banquet & Marquee">Banquet Hall &amp; Marquee</option>
+                                <option value="Outdoor Lawn & Farmhouse">Outdoor Lawn &amp; Farmhouse</option>
+                                <option value="Convention & Auditorium">Convention &amp; Auditorium</option>
+                                <option value="Royal Catering">Royal Catering</option>
+                                <option value="Decor, Sound & Photography">Decor, Sound &amp; Photography</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vCategory">Primary Event Domain Fit</label>
+                            <select id="vCategory" class="select-input">
+                                <option value="Social & Family">Social &amp; Family</option>
+                                <option value="Corporate & Business">Corporate &amp; Business</option>
+                                <option value="Academic & Educational">Academic &amp; Educational</option>
+                                <option value="Entertainment & Performance">Entertainment &amp; Performance</option>
+                                <option value="Community & Cultural">Community &amp; Cultural</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vCity">City (12 Cities)</label>
+                            <select id="vCity" class="select-input">
+                                <option value="Lahore">Lahore</option>
+                                <option value="Karachi">Karachi</option>
+                                <option value="Islamabad">Islamabad</option>
+                                <option value="Rawalpindi">Rawalpindi</option>
+                                <option value="Faisalabad">Faisalabad</option>
+                                <option value="Multan">Multan</option>
+                                <option value="Peshawar">Peshawar</option>
+                                <option value="Quetta">Quetta</option>
+                                <option value="Sialkot">Sialkot</option>
+                                <option value="Gujranwala">Gujranwala</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Abbottabad">Abbottabad</option>
+                            </select>
+                        </div>
+                        <div class="form-group span-2">
+                            <label class="field-label" for="vLocation">Exact On-Site Location &amp; Street Address</label>
+                            <input type="text" id="vLocation" class="text-input" placeholder="e.g. Plot 22, Main Canal Bank Road, Gulberg" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vManagerName">Lead Professional / Director Name</label>
+                            <input type="text" id="vManagerName" class="text-input" placeholder="e.g. Ch. Sikandar Hayat" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vManagerTitle">Professional Title &amp; Role</label>
+                            <input type="text" id="vManagerTitle" class="text-input" placeholder="Managing Director &amp; Chief Event Host" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vCert">Official License / Authority Record</label>
+                            <input type="text" id="vCert" class="text-input" placeholder="Food Authority &amp; Chamber Verified" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vExp">Years of Experience</label>
+                            <input type="number" id="vExp" class="text-input" placeholder="12" min="1" max="60" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vEventsDone">Total Events Executed</label>
+                            <input type="number" id="vEventsDone" class="text-input" placeholder="650" min="10" max="10000" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vCapacity">Guest Capacity Range</label>
+                            <input type="text" id="vCapacity" class="text-input" placeholder="150 to 900 Guests" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vRate">Starting Package / Hall Rate (PKR)</label>
+                            <input type="number" id="vRate" class="text-input" placeholder="175000" min="500" step="500" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vPhone">Direct Contact Number</label>
+                            <input type="text" id="vPhone" class="text-input" placeholder="0340 8704093" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="vImage">Custom Image URL (Optional)</label>
+                            <input type="text" id="vImage" class="text-input" placeholder="Leave blank for unique generated venue visual" />
+                        </div>
+                        <div class="form-group span-3">
+                            <label class="field-label" for="vSpecialties">Key Amenities, On-Site Facilities &amp; Specialties</label>
+                            <input type="text" id="vSpecialties" class="text-input" placeholder="Central Chiller AC, Standby Diesel Generator, Valet Parking &amp; Custom Stage" required />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-gold-lg">Publish Vendor Profile to Directory &amp; City Selector</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 5: ABOUT US PAGE (WARISHA NOOR)
+         ==================================================================== -->
+    <main id="view-about" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">HERITAGE, VISION &amp; ARCHITECTURAL EXCELLENCE</span>
+                <h1 class="serif-title">About EventEase &amp; Founder Warisha Noor</h1>
+                <p>Bridging Pakistani cultural hospitality with granular algorithmic event engineering across 12 major cities.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <section class="luxury-card founder-spotlight-card">
+                <div class="founder-grid">
+                    <div class="founder-monogram-box">
+                        <div class="founder-crest-circle">WN</div>
+                        <span class="founder-role-tag">FOUNDER &amp; LEAD ARCHITECT</span>
+                        <h3>Warisha Noor</h3>
+                        <p class="founder-contact-line">warishanoor301@gmail.com</p>
+                        <p class="founder-contact-line">0340 8704093</p>
+                    </div>
+                    <div class="founder-bio">
+                        <span class="step-tag">LEADERSHIP PROFILE</span>
+                        <h2 class="serif-title-md">Designed &amp; Engineered by Warisha Noor</h2>
+                        <p class="body-lg">
+                            <strong>EventEase</strong> was envisioned and built by <strong>Warisha Noor</strong> to empower Pakistani families, universities, and organizations with a granular, item-by-item event configurator that compares estimated budgets with real market costs.
+                        </p>
+                        <div class="founder-credentials-grid">
+                            <div class="cred-item">
+                                <span>Founder &amp; Principal Architect</span>
+                                <strong>Warisha Noor</strong>
+                            </div>
+                            <div class="cred-item">
+                                <span>Official Email Address</span>
+                                <strong>warishanoor301@gmail.com</strong>
+                            </div>
+                            <div class="cred-item">
+                                <span>Direct Contact &amp; Consultation</span>
+                                <strong>0340 8704093</strong>
+                            </div>
+                            <div class="cred-item">
+                                <span>National Coverage</span>
+                                <strong>12 Pakistani Cities &amp; 72+ Unique Vendor Profiles</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 6: CONTACT US PAGE (WARISHA NOOR)
+         ==================================================================== -->
+    <main id="view-contact" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">EXECUTIVE CONCIERGE &amp; DIRECT INQUIRIES</span>
+                <h1 class="serif-title">Contact Warisha Noor &amp; EventEase Team</h1>
+                <p>Reach out directly for bespoke event planning consultations, banquet onboarding, or technical inquiries.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <div class="dual-module-grid">
+                <section class="luxury-card">
+                    <span class="step-tag">DIRECT EXECUTIVE DIRECTORY</span>
+                    <h2 class="serif-title-sm">Official Contact Information</h2>
+                    <div class="contact-cards-stack">
+                        <div class="contact-info-row">
+                            <div class="contact-icon-box">WN</div>
+                            <div>
+                                <span>Founder &amp; Lead Architect</span>
+                                <strong>Warisha Noor</strong>
+                            </div>
+                        </div>
+                        <div class="contact-info-row">
+                            <div class="contact-icon-box">@</div>
+                            <div>
+                                <span>Official Email Address</span>
+                                <strong><a href="mailto:warishanoor301@gmail.com">warishanoor301@gmail.com</a></strong>
+                            </div>
+                        </div>
+                        <div class="contact-info-row">
+                            <div class="contact-icon-box">TEL</div>
+                            <div>
+                                <span>Direct Phone &amp; WhatsApp</span>
+                                <strong><a href="tel:03408704093">0340 8704093</a></strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="luxury-card">
+                    <span class="step-tag">SEND AN INQUIRY</span>
+                    <h2 class="serif-title-sm">Request an Event Consultation</h2>
+                    <form id="contactForm" class="luxury-form">
+                        <div class="form-group">
+                            <label class="field-label" for="cName">Your Full Name</label>
+                            <input type="text" id="cName" class="text-input" placeholder="Enter your full name" required />
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="field-label" for="cEmail">Your Email Address</label>
+                                <input type="email" id="cEmail" class="text-input" placeholder="you@example.com" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="field-label" for="cPhone">Phone Number</label>
+                                <input type="text" id="cPhone" class="text-input" placeholder="03XX XXXXXXX" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="cCategory">Event Domain</label>
+                            <select id="cCategory" class="select-input">
+                                <option value="Social & Family">Social &amp; Family</option>
+                                <option value="Corporate & Business">Corporate &amp; Business</option>
+                                <option value="Academic & Educational">Academic &amp; Educational</option>
+                                <option value="Entertainment & Performance">Entertainment &amp; Performance</option>
+                                <option value="Community & Cultural">Community &amp; Cultural</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="cMessage">Consultation Message</label>
+                            <textarea id="cMessage" class="text-input" rows="4" placeholder="Write your message for Warisha Noor..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-gold-lg full-width-btn">Submit Inquiry to Warisha Noor</button>
+                        <div id="contactSuccessBanner" class="status-banner hidden"></div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 7: DEDICATED LOGIN PAGE
+         ==================================================================== -->
+    <main id="view-login" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">MEMBER AUTHENTICATION</span>
+                <h1 class="serif-title">Login to Your EventEase Account</h1>
+                <p>Sign in to unlock your personal Dashboard tab, manage saved plans, and register vendors.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <section class="luxury-card auth-centered-card">
+                <span class="step-tag">WELCOME BACK</span>
+                <h2 class="serif-title-sm">Member Login</h2>
+                <p class="muted-sub" style="margin-bottom: 16px;">Enter your credentials below to unlock the final <strong>Dashboard</strong> tab in the navigation bar.</p>
+                <form id="loginForm" class="luxury-form">
+                    <div class="form-group">
+                        <label class="field-label" for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="text-input" value="warishanoor301@gmail.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="loginPass">Password</label>
+                        <input type="password" id="loginPass" class="text-input" value="warisha123" required />
+                    </div>
+                    <button type="submit" class="btn-gold-lg full-width-btn">Login &amp; Unlock Dashboard Tab</button>
+                </form>
+                <div class="auth-switch-bar">
+                    <span>Don't have an account yet?</span>
+                    <button type="button" class="btn-outline-sm" data-nav="signup">Go to Sign Up Page</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 8: DEDICATED SIGN UP PAGE
+         ==================================================================== -->
+    <main id="view-signup" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">NEW ACCOUNT REGISTRATION</span>
+                <h1 class="serif-title">Create Your EventEase Account</h1>
+                <p>Register your account to unlock your personal Dashboard tab and save your event plans and vendor profiles.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <section class="luxury-card auth-centered-card">
+                <span class="step-tag">CREATE ACCOUNT</span>
+                <h2 class="serif-title-sm">Sign Up for EventEase</h2>
+                <p class="muted-sub" style="margin-bottom: 16px;">Once your account is created, your personal <strong>Dashboard</strong> tab will appear as the final tab in the top navigation bar.</p>
+                <form id="signupForm" class="luxury-form">
+                    <div class="form-group">
+                        <label class="field-label" for="regName">Full Name</label>
+                        <input type="text" id="regName" class="text-input" placeholder="e.g. Warisha Noor" required />
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="regEmail">Email Address</label>
+                            <input type="email" id="regEmail" class="text-input" placeholder="warishanoor301@gmail.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="regPhone">Contact Phone</label>
+                            <input type="text" id="regPhone" class="text-input" placeholder="0340 8704093" required />
+                        </div>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label class="field-label" for="regCity">Primary City (12 Cities)</label>
+                            <select id="regCity" class="select-input">
+                                <option value="Lahore">Lahore</option>
+                                <option value="Karachi">Karachi</option>
+                                <option value="Islamabad">Islamabad</option>
+                                <option value="Rawalpindi">Rawalpindi</option>
+                                <option value="Faisalabad">Faisalabad</option>
+                                <option value="Multan">Multan</option>
+                                <option value="Peshawar">Peshawar</option>
+                                <option value="Quetta">Quetta</option>
+                                <option value="Sialkot">Sialkot</option>
+                                <option value="Gujranwala">Gujranwala</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Abbottabad">Abbottabad</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="field-label" for="regRole">Account Role</label>
+                            <select id="regRole" class="select-input">
+                                <option value="Event Host & Family Planner">Event Host &amp; Family Planner</option>
+                                <option value="Banquet / Venue Director">Banquet / Venue Director</option>
+                                <option value="Corporate / Academic Organizer">Corporate / Academic Organizer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="regPass">Create Password</label>
+                        <input type="password" id="regPass" class="text-input" placeholder="Minimum 6 characters" required />
+                    </div>
+                    <button type="submit" class="btn-gold-lg full-width-btn">Create Account &amp; Unlock Dashboard Tab</button>
+                </form>
+                <div class="auth-switch-bar">
+                    <span>Already registered?</span>
+                    <button type="button" class="btn-outline-sm" data-nav="login">Go to Login Page</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         VIEW 9: USER DASHBOARD PAGE (UNLOCKED AFTER LOGIN / SIGN UP)
+         ==================================================================== -->
+    <main id="view-dashboard" class="page-view">
+        <section class="page-Subheader">
+            <div class="container">
+                <span class="section-eyebrow">PERSONAL COMMAND CENTER</span>
+                <h1 class="serif-title">User Dashboard &amp; Saved Event Portfolio</h1>
+                <p>Manage your generated Event Plans (with Estimated vs Actual Cost), Special Event Requests, and Registered Vendors.</p>
+            </div>
+        </section>
+
+        <div class="container main-layout">
+            <section class="luxury-card dashboard-profile-bar">
+                <div class="dash-user-info">
+                    <div class="founder-crest-circle sm-crest" id="dashAvatar">WN</div>
+                    <div>
+                        <span class="step-tag" id="dashUserRole">FOUNDER &amp; LEAD ARCHITECT</span>
+                        <h3 id="dashUserName">Warisha Noor</h3>
+                        <p class="muted-sub"><span id="dashUserEmail">warishanoor301@gmail.com</span> • <span id="dashUserPhone">0340 8704093</span> • <span id="dashUserCity">Lahore</span></p>
+                    </div>
+                </div>
+                <div class="dash-quick-btns">
+                    <button type="button" class="btn-gold" data-nav="plan-builder">+ Build New Event Plan</button>
+                    <button type="button" class="btn-outline" data-nav="special-event">+ New Special Event</button>
+                    <button type="button" class="btn-outline" data-nav="vendors">+ Add Vendor</button>
+                    <button type="button" class="btn-outline-sm" id="btnLogout">Logout</button>
+                </div>
+            </section>
+
+            <div class="dual-module-grid">
+                <section class="luxury-card">
+                    <span class="step-tag">SAVED EVENT PLANS (ESTIMATED VS ACTUAL)</span>
+                    <h3 class="serif-title-sm">Your Generated Event Reports</h3>
+                    <div id="dashPlansList" class="dash-list-stack"></div>
+                </section>
+
+                <section class="luxury-card">
+                    <span class="step-tag">REGISTERED BANQUETS &amp; VENDORS</span>
+                    <h3 class="serif-title-sm">City Vendors Directory</h3>
+                    <div id="dashVendorsList" class="dash-list-stack"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- LUXURY FOOTER -->
+    <footer class="luxury-footer no-print">
+        <div class="container footer-grid">
+            <div class="footer-brand-col">
+                <div class="brand-title-light">EventEase</div>
+                <p>
+                    Pakistan's Granular Event Planning &amp; Cost Intelligence Platform across 12 Major Cities.
+                </p>
+                <div class="footer-architect-meta">
+                    <span>Founder &amp; Lead Architect: <strong>Warisha Noor</strong></span>
+                    <span>Email: <a href="mailto:warishanoor301@gmail.com">warishanoor301@gmail.com</a></span>
+                    <span>Contact: <a href="tel:03408704093">0340 8704093</a></span>
+                </div>
+            </div>
+
+            <div class="footer-links-col">
+                <h4>Platform Pages</h4>
+                <ul>
+                    <li><button type="button" class="footer-nav-btn" data-nav="home">Home Showcase</button></li>
+                    <li><button type="button" class="footer-nav-btn" data-nav="plan-builder">Granular Plan Builder</button></li>
+                    <li><button type="button" class="footer-nav-btn" data-nav="special-event">Special Event Request</button></li>
+                    <li><button type="button" class="footer-nav-btn" data-nav="vendors">12-City Vendors &amp; Banquets</button></li>
+                    <li><button type="button" class="footer-nav-btn" data-nav="login">Login</button></li>
+                    <li><button type="button" class="footer-nav-btn" data-nav="signup">Sign Up</button></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4>12 Pakistani Cities Covered</h4>
+                <p style="font-size: 0.84rem; line-height: 1.7;">
+                    Lahore • Karachi • Islamabad • Rawalpindi • Faisalabad • Multan • Peshawar • Quetta • Sialkot • Gujranwala • Hyderabad • Abbottabad
+                </p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <span>&copy; 2026 EventEase by Warisha Noor. All Rights Reserved.</span>
+            <span>Deployable on GitHub • Vercel (Frontend) • Render (Backend) • Neon (PostgreSQL)</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
